@@ -1,0 +1,21 @@
+html {
+    box-sizing: border-box;
+    font-family: monospace;
+}
+  
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+#maze {
+    width: 500px;
+    height: 500px;
+    border: 1px solid;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cell {
+    border: 1px solid;
+    flex-grow: 1;
+}
