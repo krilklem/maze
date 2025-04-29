@@ -38,18 +38,37 @@ function drawGrid(maze, n) {
 function visit(cells, cell, n) {
     // mark current cell as visited
     cell.dataset.visited = true;
-    
-    cell.style["background-color"] = "#1789fc";
+    cell.style["background-color"] = "#1789fc";/////////////////////////// just here for debugging
 
     let neighbour = randomNeighbour(cells, cell, n);
     if ( neighbour ) {
+
+        // remove border between current cell and neighbouring cell
+        if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) - 1 &&
+             Number(neighbour.dataset.j) === Number(cell.dataset.j) ) { // top
+            cell.style["border-top"] = "none";
+            neighbour.style["border-bottom"] = "none";
+        } else if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) &&
+                    Number(neighbour.dataset.j) === Number(cell.dataset.j) + 1 ) { // right
+            cell.style["border-right"] = "none";
+            neighbour.style["border-left"] = "none";
+        } else if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) + 1 &&
+                    Number(neighbour.dataset.j) === Number(cell.dataset.j) ) { // bottom
+            cell.style["border-bottom"] = "none";
+            neighbour.style["border-top"] = "none";
+        } else { // left
+            cell.style["border-left"] = "none";
+            neighbour.style["border-right"] = "none";
+        }
+
+        // recursively visit neighbour/next cell
         visit(cells, neighbour, n);
     }
 }
 
 // converts 2D coordinates to 1D index
 function index(i, j, n) {
-    if ( i < 0 || j < 0 || i > n * n - 1 || j > n * n- 1 ) {
+    if ( i < 0 || j < 0 || i > n - 1 || j > n- 1 ) {
         return -1;
     }
     return n * i + j;
@@ -61,7 +80,7 @@ function randomNeighbour(cells, cell, n) {
                     index(Number(cell.dataset.i),     Number(cell.dataset.j) + 1, n),  // right
                     index(Number(cell.dataset.i) + 1, Number(cell.dataset.j)    , n),  // bottom
                     index(Number(cell.dataset.i),     Number(cell.dataset.j) - 1, n)]; // left
- 
+
     let unvisited = [];
     indices.forEach( index => {
         if ( cells[index] ? !(cells[index].dataset.visited === "true") : false ) {
