@@ -10,8 +10,27 @@
     <body>
         <script src="./script.js"></script>
 
-        <h1>Lost</h1>
-        <div id="maze"></div>
-        
+        <div class="container">
+            <div id="left" class="side">
+                <div id="level">level 1</div>
+                <div id="score">000</div>
+                <div id="score-backlog">
+                    <span>level</span> <span>score</span>
+                    <ul>
+                        <li><span class="level">1 </span><span class="score">20</span></li>
+                        <li><span class="level">2 </span><span class="score">180</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="middle">
+                <h1>Lost</h1>
+                <div id="maze"></div>
+            </div>
+            
+            <div id="right">
+                <div id="timer">5:00</div>
+            </div>
+        </div>
     </body>
 </html>

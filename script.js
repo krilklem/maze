@@ -22,8 +22,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let exit = cells[n * n - 1];
     exit.style["background-color"] = "#DDDDDD";
+
+    document.addEventListener("keydown", (event) => {
+        let key = event.key.toLowerCase();
+        switch ( key ) {
+            case "arrowup":
+            case "w":
+                player = move(player, "top");
+                break;
+            case "arrowright":
+            case "d":
+                player = move(player, "right");
+                break;
+            case "arrowdown":
+            case "s":
+                player = move(player, "bottom");
+                break;
+            case "arrowleft":
+            case "a":
+                player = move(player, "left");
+                break;
+        }
+    });
 });
 
+// populate maze <div> with cell <div>'s
 function drawGrid(maze) {
     maze.textContent = "";
     const cellWidth = (maze?.clientWidth) / n;
@@ -94,6 +117,7 @@ function randomNeighbour(cell) {
     return undefined; // no unvisited neighbours to return
 }
 
+// remove borders between traversed cells
 function removeWalls(cell, neighbour) {
     if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) - 1 &&
          Number(neighbour.dataset.j) === Number(cell.dataset.j) ) { // top
@@ -114,4 +138,28 @@ function removeWalls(cell, neighbour) {
         cell.style["border-left"] = "none";
         neighbour.style["border-right"] = "none";
     }
+}
+
+// move player cell if there is not a wall in the direction of the input
+function move(player, direction) {
+    let wall = player.style[`border-${direction}`];
+    if ( wall === "none") {
+        player.style["background-color"] = "white"; /////////// change later
+        switch ( direction ) {
+            case "top":
+                player = cells[index(Number(player.dataset.i) - 1, Number(player.dataset.j)    )];
+                break;
+            case "right":
+                player = cells[index(Number(player.dataset.i)    , Number(player.dataset.j) + 1)];
+                break;
+            case "bottom":
+                player = cells[index(Number(player.dataset.i) + 1, Number(player.dataset.j)    )];
+                break;
+            case "left":
+                player = cells[index(Number(player.dataset.i)    , Number(player.dataset.j) - 1)];
+                break;
+        }
+        player.style["background-color"] = "#DC3C18";
+    }
+    return player;
 }

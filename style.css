@@ -5,12 +5,16 @@ html {
   
 *, *::before, *::after {
     box-sizing: inherit;
+    text-align: center;
 }
 
 #maze {
     width: 500px;
     height: 500px;
     border: 1px solid;
+    border-radius: 46px;
+    overflow: hidden;
+
     display: flex;
     flex-wrap: wrap;
 }
@@ -18,4 +22,9 @@ html {
 .cell {
     border: 1px solid;
     flex-grow: 1;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
 }
