@@ -28,3 +28,15 @@ html {
     display: flex;
     justify-content: center;
 }
+
+.player {
+    background-color: #DC3C18;
+}
+
+.exit {
+    background-color: #DDDDDD;
+}
+
+.escaped {
+    background-color: #98C46E;
+}

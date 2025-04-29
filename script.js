@@ -17,33 +17,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // initialise level counter
     let level = 1;
+    let escaped = false;
     let player = cells[0];
-    player.style["background-color"] = "#DC3C18";
+    player.classList.add("player");
 
     let exit = cells[n * n - 1];
-    exit.style["background-color"] = "#DDDDDD";
+    exit.classList.add("exit");
 
     document.addEventListener("keydown", (event) => {
         let key = event.key.toLowerCase();
         switch ( key ) {
             case "arrowup":
             case "w":
-                player = move(player, "top");
+                [player, escaped] = move(player, "top");
                 break;
             case "arrowright":
             case "d":
-                player = move(player, "right");
+                [player, escaped] = move(player, "right");
                 break;
             case "arrowdown":
             case "s":
-                player = move(player, "bottom");
+                [player, escaped] = move(player, "bottom");
                 break;
             case "arrowleft":
             case "a":
-                player = move(player, "left");
+                [player, escaped] = move(player, "left");
                 break;
         }
+
+        if ( escaped ) console.log("you won!...time for a new map"); ///
+        // need to do the game loop ///////////
     });
+    
 });
 
 // populate maze <div> with cell <div>'s
@@ -143,8 +148,9 @@ function removeWalls(cell, neighbour) {
 // move player cell if there is not a wall in the direction of the input
 function move(player, direction) {
     let wall = player.style[`border-${direction}`];
+    let escaped = false;
     if ( wall === "none") {
-        player.style["background-color"] = "white"; /////////// change later
+        player.classList.remove("player");
         switch ( direction ) {
             case "top":
                 player = cells[index(Number(player.dataset.i) - 1, Number(player.dataset.j)    )];
@@ -159,7 +165,12 @@ function move(player, direction) {
                 player = cells[index(Number(player.dataset.i)    , Number(player.dataset.j) - 1)];
                 break;
         }
-        player.style["background-color"] = "#DC3C18";
+        if ( player.classList.contains("exit") ) {
+            escaped = true;
+            player.classList.remove("exit"); // a bit redundant as CSS class is overwritten
+            player.classList.add("escaped");
+        }
+        player.classList.add("player");
     }
-    return player;
+    return [player, escaped];
 }
