@@ -2,28 +2,25 @@
 
 let stack = [];
 let cells = undefined;
-let n = 4;
+let n = 16;
 
 document.addEventListener("DOMContentLoaded", () => {
     const maze = document.querySelector("#maze");
 
-    // draw maze grid
-    drawGrid(maze);
-    cells = maze.childNodes;
+    // draw complete maze
+    drawMaze(maze);
 
-    // draw maze
-    let current = cells[0]; // start at [i, j] = [0, 0]
-    visit(current);
-
-    // initialise level counter
+    // initialise game variables
     let level = 1;
     let escaped = false;
     let player = cells[0];
     player.classList.add("player");
 
+    // initialise escape cell
     let exit = cells[n * n - 1];
     exit.classList.add("exit");
 
+    // 
     document.addEventListener("keydown", (event) => {
         let key = event.key.toLowerCase();
         switch ( key ) {
@@ -45,11 +42,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
 
-        if ( escaped ) console.log("you won!...time for a new map"); ///
-        // need to do the game loop ///////////
+        if ( escaped ) 
+        {
+            console.log("you won!...time for a new map"); ///
+            // TO DO: add score to backlog
+            // TO DO: restart timer
+            level += 1;
+            n += 2;
+
+            drawMaze(maze);
+
+            escaped = false;
+            player = cells[0];
+            player.classList.add("player");
+
+            // initialise escape cell
+            exit = cells[n * n - 1];
+            exit.classList.add("exit");
+        }
     });
     
 });
+
+// draw maze
+function drawMaze(maze) {
+    // draw maze grid
+    drawGrid(maze);
+    cells = maze.childNodes;
+
+    // draw maze
+    let current = cells[0]; // start at [i, j] = [0, 0]
+    visit(current);
+
+    // add random cycles
+    for ( let i = 0; i < n * 2; i ++ ) {
+        let randomCell = cells[Math.floor(Math.random() * n * n)];
+        let indices = allNeighbours(randomCell);
+        
+        let neighbours = [];
+        indices.forEach( index => cells[index] ? neighbours.push(cells[index]) : null );
+
+        removeWalls(randomCell, neighbours[Math.floor(Math.random() * neighbours.length)]);
+    }
+}
 
 // populate maze <div> with cell <div>'s
 function drawGrid(maze) {
@@ -102,12 +137,18 @@ function index(i, j) {
     return n * i + j;
 }
 
+// return the indices of all cells  that neighbour the argument cell
+function allNeighbours(cell) {
+    return [index(Number(cell.dataset.i) - 1, Number(cell.dataset.j)    , n),  // top
+            index(Number(cell.dataset.i),     Number(cell.dataset.j) + 1, n),  // right
+            index(Number(cell.dataset.i) + 1, Number(cell.dataset.j)    , n),  // bottom
+            index(Number(cell.dataset.i),     Number(cell.dataset.j) - 1, n)]; // left
+}
+
 // returns a random unvisited neighbour
 function randomNeighbour(cell) {
-    let indices = [ index(Number(cell.dataset.i) - 1, Number(cell.dataset.j)    , n),  // top
-                    index(Number(cell.dataset.i),     Number(cell.dataset.j) + 1, n),  // right
-                    index(Number(cell.dataset.i) + 1, Number(cell.dataset.j)    , n),  // bottom
-                    index(Number(cell.dataset.i),     Number(cell.dataset.j) - 1, n)]; // left
+    let indices = allNeighbours(cell);
+    console.log(indices);
 
     let unvisited = [];
     indices.forEach( index => {
