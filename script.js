@@ -9,11 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const level = document.querySelector("#level");
     const score = document.querySelector("#score");
     const score_backlog = document.querySelector("#score-backlog");
+    const timer = document.querySelector("#timer");
 
     // draw complete maze
     drawMaze(maze);
 
     // initialise game variables
+    let time = 10;
+    let timeLeft = time;
     let lv = 1;
     let escaped = false;
     let player = cells[0];
@@ -26,31 +29,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // 
     document.addEventListener("keydown", (event) => {
         let key = event.key.toLowerCase();
-        switch ( key ) {
-            case "arrowup":
-            case "w":
-                [player, escaped] = move(player, "top");
-                break;
-            case "arrowright":
-            case "d":
-                [player, escaped] = move(player, "right");
-                break;
-            case "arrowdown":
-            case "s":
-                [player, escaped] = move(player, "bottom");
-                break;
-            case "arrowleft":
-            case "a":
-                [player, escaped] = move(player, "left");
-                break;
+        if ( timeLeft > 0 ) {
+            switch ( key ) {
+                case "arrowup":
+                case "w":
+                    [player, escaped] = move(player, "top");
+                    break;
+                case "arrowright":
+                case "d":
+                    [player, escaped] = move(player, "right");
+                    break;
+                case "arrowdown":
+                case "s":
+                    [player, escaped] = move(player, "bottom");
+                    break;
+                case "arrowleft":
+                case "a":
+                    [player, escaped] = move(player, "left");
+                    break;
+            }
+        }
+        else {
+            clearInterval(intervalID);
+
+            //// TO DO: allow the player to restart the game if they press any key
         }
 
         if ( escaped ) 
         {
-            // TO DO: add score to backlog
-            // TO DO: restart timer
-            lv += 1;
+            lv++;
             n += 2;
+
+            // TO DO: calculate score
+            // TO DO: add score to backlog
+            // TO DO: add cumulative score
+
+            // restart timer
+            time = n * 1.5;
+            timeLeft = time;
 
             // update level counter on screen
             level.textContent = `level ${lv}`;
@@ -66,6 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
             exit.classList.add("exit");
         }
     });
+
+    let intervalID = setInterval(() => {
+        timeLeft--;
+        timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
+    }, 1000);
     
 });
 
