@@ -1,3 +1,13 @@
+:root {
+    --night: #091400; /*also consider #0A1004 and #0A0F06*/
+    --dark-green: #0F2801;
+    --dark-green-1: #143601;
+    --dark-green-2: #1A4301;
+    --dark-moss-green: #245501;
+    --avocado: #538D22;
+    --asparagus: #73A942;
+}
+
 html {
     box-sizing: border-box;
     font-family: monospace;
@@ -8,12 +18,19 @@ html {
     text-align: center;
 }
 
+body {
+    background-color: black;
+    color: var(--asparagus);
+}
+
 #maze {
     width: 500px;
     height: 500px;
     border: 1px solid;
-    border-radius: 46px;
+    border-radius: 16px;
     overflow: hidden;
+
+    background-color: var(--night);
 
     display: flex;
     flex-wrap: wrap;
@@ -34,9 +51,9 @@ html {
 }
 
 .exit {
-    background-color: #DDDDDD;
+    background-color: var(--dark-green-2);
 }
 
 .escaped {
-    background-color: #98C46E;
+    background-color: var(--asparagus);
 }

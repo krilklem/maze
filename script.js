@@ -2,16 +2,19 @@
 
 let stack = [];
 let cells = undefined;
-let n = 16;
+let n = 4;
 
 document.addEventListener("DOMContentLoaded", () => {
     const maze = document.querySelector("#maze");
+    const level = document.querySelector("#level");
+    const score = document.querySelector("#score");
+    const score_backlog = document.querySelector("#score-backlog");
 
     // draw complete maze
     drawMaze(maze);
 
     // initialise game variables
-    let level = 1;
+    let lv = 1;
     let escaped = false;
     let player = cells[0];
     player.classList.add("player");
@@ -44,11 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if ( escaped ) 
         {
-            console.log("you won!...time for a new map"); ///
             // TO DO: add score to backlog
             // TO DO: restart timer
-            level += 1;
+            lv += 1;
             n += 2;
+
+            // update level counter on screen
+            level.textContent = `level ${lv}`;
 
             drawMaze(maze);
 
@@ -148,7 +153,6 @@ function allNeighbours(cell) {
 // returns a random unvisited neighbour
 function randomNeighbour(cell) {
     let indices = allNeighbours(cell);
-    console.log(indices);
 
     let unvisited = [];
     indices.forEach( index => {
