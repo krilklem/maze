@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // initialise game variables
     let time = 10;
     let timeLeft = time;
-    let lv = 1;
+    let gameLevel = 1;
+    let cumulativeScore = 0;
+
     let escaped = false;
     let player = cells[0];
     player.classList.add("player");
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let exit = cells[n * n - 1];
     exit.classList.add("exit");
 
-    // 
+    // player moveset
     document.addEventListener("keydown", (event) => {
         let key = event.key.toLowerCase();
         if ( timeLeft > 0 ) {
@@ -49,27 +51,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
             }
         }
-        else {
-            clearInterval(intervalID);
-
-            //// TO DO: allow the player to restart the game if they press any key
-        }
 
         if ( escaped ) 
         {
-            lv++;
+            gameLevel++;
             n += 2;
 
-            // TO DO: calculate score
-            // TO DO: add score to backlog
-            // TO DO: add cumulative score
+            // calculate and update score on screen
+            let gameScore = timeLeft * 10
+
+            const backlog = document.createElement("li");
+            const backlog_level = document.createElement("span");
+            const backlog_score = document.createElement("span");
+
+            backlog_level.textContent = `${String(gameLevel).padStart(2, '0')}  `;
+            backlog_score.textContent = String(gameScore).padStart(4, '0');
+            
+            backlog.appendChild(backlog_level)
+            backlog.appendChild(backlog_score)
+            score_backlog.prepend(backlog);
+
+            cumulativeScore += gameScore;
+            score.textContent = `${String(cumulativeScore).padStart(4, '0')}`;
 
             // restart timer
             time = n * 1.5;
             timeLeft = time;
 
             // update level counter on screen
-            level.textContent = `level ${lv}`;
+            level.textContent = `level ${gameLevel}`;
 
             drawMaze(maze);
 
@@ -86,8 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let intervalID = setInterval(() => {
         timeLeft--;
         timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
-    }, 1000);
+        if ( timeLeft <= 0 )
+        {
+            clearInterval(intervalID);
     
+            //// TO DO: allow the player to restart the game if they press any key
+        }
+    }, 1000);
 });
 
 // draw maze
