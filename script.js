@@ -2,7 +2,7 @@
 
 let stack = [];
 let cells = undefined;
-let n = 4;
+let n = 16;
 
 document.addEventListener("DOMContentLoaded", () => {
     const maze = document.querySelector("#maze");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // initialise game variables
     let time = 10;
-    let timeLeft = time;
+    let timeLeft = 0;
     let gameLevel = 1;
     let cumulativeScore = 0;
 
@@ -51,6 +51,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
             }
         }
+        else {
+            // TO DO: message to press anything to start
+
+            if ( key === "enter" ) {
+                n = 4;
+                drawMaze(maze);
+
+                time = 10;
+                timeLeft = time;
+                gameLevel = 1;
+                cumulativeScore = 0;
+
+                escaped = false;
+                player = cells[0];
+                player.classList.add("player");
+
+                // initialise escape cell
+                exit = cells[n * n - 1];
+                exit.classList.add("exit");
+
+                let intervalID = setInterval(() => {
+                    timeLeft--;
+                    timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
+                    if ( timeLeft <= 0 )
+                    {
+                        clearInterval(intervalID);
+                
+                        //// TO DO: allow the player to restart the game if they press any key
+                    }
+                }, 1000);
+            }
+            
+            
+        }
 
         if ( escaped ) 
         {
@@ -58,7 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
             n += 2;
 
             // calculate and update score on screen
-            let gameScore = timeLeft * 10
+            let gameScore = timeLeft * 10 
+                // or Math.floor(timeLeft / time) * 100 but then its impossible to get 100
+                // so maybe something like
+                // Math.floor(timeLeft / (0.5 * n)) * 100??
 
             const backlog = document.createElement("li");
             const backlog_level = document.createElement("span");
@@ -75,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
             score.textContent = `${String(cumulativeScore).padStart(4, '0')}`;
 
             // restart timer
-            time = n * 1.5;
+            time = n * 2;
             timeLeft = time;
 
             // update level counter on screen
@@ -92,17 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
             exit.classList.add("exit");
         }
     });
-
-    let intervalID = setInterval(() => {
-        timeLeft--;
-        timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
-        if ( timeLeft <= 0 )
-        {
-            clearInterval(intervalID);
-    
-            //// TO DO: allow the player to restart the game if they press any key
-        }
-    }, 1000);
 });
 
 // draw maze
