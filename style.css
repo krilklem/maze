@@ -57,3 +57,17 @@ body {
 .escaped {
     background-color: var(--asparagus);
 }
+
+#middle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#prompt {
+    position: absolute;
+    color: white;
+    align-self: center;
+    text-shadow: 0 0 40px white;
+}

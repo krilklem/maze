@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const score = document.querySelector("#score");
     const score_backlog = document.querySelector("#score-backlog");
     const timer = document.querySelector("#timer");
+    const prompt = document.querySelector("#prompt");
+    const final_score = document.querySelector("#final-score");
 
     // draw complete maze
     drawMaze(maze);
@@ -52,8 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         else {
-            // TO DO: message to press anything to start
-
             if ( key === "enter" ) {
                 n = 4;
                 drawMaze(maze);
@@ -71,19 +71,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 exit = cells[n * n - 1];
                 exit.classList.add("exit");
 
+                prompt.style["display"] = "none";
+
+                // countdown
                 let intervalID = setInterval(() => {
                     timeLeft--;
                     timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
                     if ( timeLeft <= 0 )
                     {
                         clearInterval(intervalID);
-                
-                        //// TO DO: allow the player to restart the game if they press any key
+
+                        final_score.textContent = String(cumulativeScore).padStart(4, '0');
+                        prompt.style["display"] = "block";
                     }
                 }, 1000);
-            }
-            
-            
+            }   
         }
 
         if ( escaped ) 
