@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 prompt.style["display"] = "none";
                 timer.style["color"] = "var(--chill-red)";
+                score_backlog.textContent = "";
 
                 // countdown
                 let intervalID = setInterval(() => {
