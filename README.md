@@ -1,1 +1,1 @@
-# maze
+# [maze](https://krilklem.github.io/maze/)
