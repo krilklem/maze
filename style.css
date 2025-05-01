@@ -6,6 +6,14 @@
     --dark-moss-green: #245501;
     --avocado: #538D22;
     --asparagus: #73A942;
+
+    --chill-red: #DC3C18;
+    --crimson: #820D15;
+    --chocolate-cosmos: #540B0E;
+    --cinnabar: #E95635;
+    --raisin-black: #2E282A;
+    --licorice: #130303;
+    --baby-powder: #F9F7F3;
 }
 
 html {
@@ -16,21 +24,32 @@ html {
 *, *::before, *::after {
     box-sizing: inherit;
     text-align: center;
+    margin: 0;
+}
+
+::selection {
+    background-color: var(--chill-red);
 }
 
 body {
     background-color: black;
     color: var(--asparagus);
+    margin: 6rem 0 0 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #maze {
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     border: 1px solid;
     border-radius: 16px;
     overflow: hidden;
 
     background-color: var(--night);
+    box-shadow: 0 0 10px var(--asparagus);
 
     display: flex;
     flex-wrap: wrap;
@@ -44,6 +63,29 @@ body {
 .container {
     display: flex;
     justify-content: center;
+    gap: 2rem;
+}
+
+.side { 
+    width: 18rem;
+}
+
+#middle {
+    flex-grow: 1;
+}
+
+#score-backlog {
+    height: 32rem;
+    border-radius: 8px;
+    border: 2px solid var(--dark-green-2);
+    box-shadow: 0 0 5px var(--dark-green-2);
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#scroll-backlog::-webkit-scrollbar {
+    display: none;
 }
 
 .player {
@@ -63,6 +105,26 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#level {
+    font-size: 24px;
+}
+
+#score, #final-score, #timer {
+    font-size: 36px;
+    font-weight: 800;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#title {
+    font-size: 42px;
+    font-weight: 100;
 }
 
 #prompt {

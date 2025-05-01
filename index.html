@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./style.css">
-        <title>Lost</title>
+        <title>Escape</title>
     </head>
     
     <body>
@@ -13,24 +13,35 @@
         <div class="container">
             <div id="left" class="side">
                 <div id="level">level 1</div>
-                <div id="score">0000</div>
+                <div id="score">00000</div>
                 <div>
                     <span>level</span> <span>score</span>
-                    <ul id="score-backlog">
-                    </ul>
+                    <ul id="score-backlog"></ul>
+                <div id="info">
+                    <p>
+                        press [enter] to start the timer -
+                    </p>
+                    <p>
+                        moving using WASD or ARROW keys -
+                    </p>
+                    <p>
+                        clear as many levels as you can by reaching the bottom right corner
+                    </p>
+                    
+                </div>
                 </div>
             </div>
 
             <div id="middle">
-                <h1 id="title">Lost</h1>
+                <h1 id="title">Escape</h1>
                 <div id="prompt">
+                    <h2 id="final-score">00000</h2>
                     <h2>press [enter] to start</h2>
-                    <h2 id="final-score">0000</h2>
                 </div>
                 <div id="maze"></div>
             </div>
             
-            <div id="right">
+            <div id="right" class="side">
                 <div id="timer">00 : 10</div>
             </div>
         </div>

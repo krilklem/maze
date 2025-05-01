@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // player moveset
     document.addEventListener("keydown", (event) => {
         let key = event.key.toLowerCase();
-        if ( timeLeft > 0 ) {
+        if ( timeLeft > 0 ) { // move player pixel on screen
             switch ( key ) {
                 case "arrowup":
                 case "w":
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
             }
         }
-        else {
+        else { // time has run out so show final score and reset game
             if ( key === "enter" ) {
                 n = 4;
                 drawMaze(maze);
@@ -72,49 +72,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 exit.classList.add("exit");
 
                 prompt.style["display"] = "none";
+                timer.style["color"] = "var(--chill-red)";
 
                 // countdown
                 let intervalID = setInterval(() => {
                     timeLeft--;
+                    
                     timer.textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')} : ${String(timeLeft % 60).padStart(2, '0')}`;
                     if ( timeLeft <= 0 )
                     {
                         clearInterval(intervalID);
 
-                        final_score.textContent = String(cumulativeScore).padStart(4, '0');
+                        timer.style["color"] = "";
+                        final_score.textContent = String(cumulativeScore).padStart(5, '0');
                         prompt.style["display"] = "block";
                     }
                 }, 1000);
             }   
         }
 
-        if ( escaped ) 
+        if ( escaped ) // draw next level and increment score + level
         {
             gameLevel++;
             n += 2;
 
             // calculate and update score on screen
-            let gameScore = timeLeft * 10 
-                // or Math.floor(timeLeft / time) * 100 but then its impossible to get 100
-                // so maybe something like
-                // Math.floor(timeLeft / (0.5 * n)) * 100??
+            let gameScore = Math.floor((timeLeft / time) * 100)
 
             const backlog = document.createElement("li");
             const backlog_level = document.createElement("span");
             const backlog_score = document.createElement("span");
 
-            backlog_level.textContent = `${String(gameLevel).padStart(2, '0')}  `;
-            backlog_score.textContent = String(gameScore).padStart(4, '0');
+            backlog_level.textContent = `${String(gameLevel).padStart(2, '0')} - `;
+            backlog_score.textContent = String(gameScore).padStart(5, '0');
             
             backlog.appendChild(backlog_level)
             backlog.appendChild(backlog_score)
             score_backlog.prepend(backlog);
 
             cumulativeScore += gameScore;
-            score.textContent = `${String(cumulativeScore).padStart(4, '0')}`;
+            score.textContent = `${String(cumulativeScore).padStart(5, '0')}`;
 
             // restart timer
-            time = n * 2;
+            time = Math.min(n * 4, 180); // maximum 3 minutes
             timeLeft = time;
 
             // update level counter on screen
@@ -140,7 +140,7 @@ function drawMaze(maze) {
     cells = maze.childNodes;
 
     // draw maze
-    let current = cells[0]; // start at [i, j] = [0, 0]
+    let current = cells[index(Math.floor(n / 2), Math.floor(n / 2))]; // start at center
     visit(current);
 
     // add random cycles
