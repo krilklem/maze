@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const backlog_level = document.createElement("span");
             const backlog_score = document.createElement("span");
 
-            backlog_level.textContent = `${String(gameLevel).padStart(2, '0')} - `;
+            backlog_level.textContent = `${String(gameLevel - 1).padStart(2, '0')} - `;
             backlog_score.textContent = String(gameScore).padStart(5, '0');
             
             backlog.appendChild(backlog_level)
