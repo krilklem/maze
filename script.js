@@ -236,28 +236,28 @@ function randomNeighbour(cell) {
 function removeWalls(cell, neighbour) {
     if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) - 1 &&
          Number(neighbour.dataset.j) === Number(cell.dataset.j) ) { // top
-        cell.style["border-top"] = "none";
-        neighbour.style["border-bottom"] = "none";
+        cell.style["border-top-style"] = "none";
+        neighbour.style["border-bottom-style"] = "none";
 
     } else if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) &&
                 Number(neighbour.dataset.j) === Number(cell.dataset.j) + 1 ) { // right
-        cell.style["border-right"] = "none";
-        neighbour.style["border-left"] = "none";
+        cell.style["border-right-style"] = "none";
+        neighbour.style["border-left-style"] = "none";
 
     } else if ( Number(neighbour.dataset.i) === Number(cell.dataset.i) + 1 &&
                 Number(neighbour.dataset.j) === Number(cell.dataset.j) ) { // bottom
-        cell.style["border-bottom"] = "none";
-        neighbour.style["border-top"] = "none";
+        cell.style["border-bottom-style"] = "none";
+        neighbour.style["border-top-style"] = "none";
 
     } else { // left
-        cell.style["border-left"] = "none";
-        neighbour.style["border-right"] = "none";
+        cell.style["border-left-style"] = "none";
+        neighbour.style["border-right-style"] = "none";
     }
 }
 
 // move player cell if there is not a wall in the direction of the input
 function move(player, direction) {
-    let wall = player.style[`border-${direction}`];
+    let wall = player.style[`border-${direction}-style`];
     let escaped = false;
     if ( wall === "none") {
         player.classList.remove("player");
